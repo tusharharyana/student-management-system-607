@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.sms.service.StudentService;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 @RestController
 @RequestMapping("/students")
@@ -17,9 +16,6 @@ public class StudentController {
 
     @Autowired
     private StudentService service;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @GetMapping
     public ArrayList<Student> getStudents() {
@@ -43,16 +39,8 @@ public class StudentController {
 
 
     @GetMapping("/count")
-    public int countStudents(){
+    public String countStudents(){
         return service.getStudentCount();
-    }
-
-    @GetMapping("/message")
-    public String getMessage(){
-
-        String sql = "Select count(*) from student";
-
-        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
 }
