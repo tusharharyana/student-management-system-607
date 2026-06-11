@@ -9,6 +9,8 @@ import com.example.sms.model.Student;
 import com.example.sms.repository.StudentRepository;
 
 import java.util.List;  
+import com.example.sms.exception.StudentNotFoundException;
+import com.example.sms.dto.StudentRequestDTO;
 
 @Service
 public class StudentService {
@@ -36,5 +38,24 @@ public class StudentService {
     public Student saveStudent( Student student) {
     return repository.save(student);
 }
+    
+    public Student getStudentById(Integer id) {
+
+        return repository
+                .findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with id: " + id));
+    }
+
+    public Student addStudent(StudentRequestDTO dto) {
+
+        Student student = new Student();
+        // converting RequestDTO to Entity
+        student.setName(dto.getName());
+        student.setCourse(dto.getCourse());
+
+        return repository.save(student);
+}
+
+
 
 }
