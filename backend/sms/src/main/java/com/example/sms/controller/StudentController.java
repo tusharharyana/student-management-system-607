@@ -12,6 +12,7 @@ import com.example.sms.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import com.example.sms.dto.StudentResponseDTO;
 import com.example.sms.dto.StudentRequestDTO;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
@@ -78,5 +79,20 @@ public class StudentController {
         Student student = service.addStudent(dto);
         return ResponseEntity.ok(student);
 }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody StudentRequestDTO dto) {
+        
+        Student student = service.updateStudent(id, dto);
+        return ResponseEntity.ok(student);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
+        
+        String message = service.deleteStudent(id);
+        return ResponseEntity.ok(Map.of("message", message));
+    }
 
 }
