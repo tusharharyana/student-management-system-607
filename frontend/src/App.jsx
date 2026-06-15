@@ -3,6 +3,8 @@ import { useState } from "react";
 function App() {
   const [students, setStudents] = useState([]);
   const [count, setCount] = useState(0);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const getStudents = async () => {
     const response = await fetch("http://localhost:8080/students");
@@ -25,6 +27,20 @@ function App() {
     setCount(data);
   };
 
+  const login = async () => {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+    alert("Login Successful");
+  };
+
   return (
     <div style={{ padding: "40px" }}>
       <button onClick={getStudents}>Get Students</button>
@@ -42,6 +58,17 @@ function App() {
       <button onClick={fetchTotalStudentCount}>Get Total Student Count</button>
 
       <p>Total students: {count}</p>
+
+      <input
+        placeholder="Enter username"
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        placeholder="Enter password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button onClick={login}>Login</button>
     </div>
   );
 }
