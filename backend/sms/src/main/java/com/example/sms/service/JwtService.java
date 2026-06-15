@@ -1,0 +1,26 @@
+package com.example.sms.service;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import java.util.Date;
+
+@Service
+public class JwtService {
+
+    @Value("${jwt.secret}")
+    private String key;
+
+    public String generateJwtToken(String username){
+        String token = 
+            Jwts.builder()
+                .setSubject(username)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .signWith(Keys.hmacShaKeyFor(key.getBytes()))
+                .compact();
+
+            return token;    
+    }
+
+}
